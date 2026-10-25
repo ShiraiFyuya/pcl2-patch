@@ -252,7 +252,7 @@ public static class Patches
         d.Body = new MethodBody(d) { MaxStackSize = 6 };
         var il = d.Body.GetILProcessor();
 
-        // 门禁：只允许带实例名（= PCL 内下载）的安装。本地导入永远不放行。
+        // 门禁：只允许带实例名（= PCL 内下载）的安装。
         {
             var allow = Instruction.Create(OpCodes.Nop);
             il.Append(Instruction.Create(OpCodes.Ldarg, d.Parameters[4]));

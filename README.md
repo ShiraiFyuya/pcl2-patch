@@ -102,12 +102,6 @@
 
 </details>
 
-<details>
-<summary><b>为什么本地导入整合包还是禁用的？</b></summary>
-
-这是有意的设计。本地导入会解压任意压缩包，而 PCL 的整合包安装流程会扫描包内 `*.exe` 并询问用户“是否换用它继续安装”——这是一条现成的诱导执行路径。本工具只恢复「从 PCL 内下载」的安装链路，来源可溯源的才放行。
-</details>
-
 ## 技术实现
 
 引擎基于 [Mono.Cecil](https://github.com/jbevain/cecil)：读入程序集、在内存里改 IL、写回新文件。**仓库不含 PCL 的任何原始字节** —— 定位完全依赖类型名、方法签名、IL 结构与数据流，例如「`PageLoaderInit` 调用前最后一个 `newobj LoaderTask<,>`」「`OpenZip` 的返回值落进了哪个局部变量」。
