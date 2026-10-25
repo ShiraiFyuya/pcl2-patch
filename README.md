@@ -1,76 +1,118 @@
+<div align="center">
+
+<img src="docs/logo.png" width="96" alt="pcl2-patch" />
+
 # pcl2-patch
 
-![license](https://img.shields.io/badge/license-GPLv3-blue)
-![platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey)
-[![PCL2 最新](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2FMeloong-Git%2FPCL%2Fcommits%3Fpath%3DPlain%2520Craft%2520Launcher%25202%2FMy%2520Project%2FAssemblyInfo.vb%26per_page%3D1&query=%24%5B0%5D.commit.message&label=PCL2%20%E6%9C%80%E6%96%B0&color=2B6CF6)](https://github.com/Meloong-Git/PCL)
-[![适配](https://img.shields.io/badge/%E9%80%82%E9%85%8D-2.99.0.0%20%7C%202.99.0.1-1E9E5A)](https://github.com/ShiraiFyuya/pcl2-patch/releases/latest)
+**让 Plain Craft Launcher 2 的下载页与整合包安装重新工作**
 
-为 [Plain Craft Launcher 2](https://github.com/Meloong-Git/PCL)（PCL2）提供一份下载页与整合包安装的修复补丁。
+<sub>图形化 · 按版本适配 · 自动备份 · 随时可回滚</sub>
 
-[**⬇ 下载最新版**](https://github.com/ShiraiFyuya/pcl2-patch/releases/latest) · [实现说明](docs/TECHNICAL.md)
+<br/>
 
-![pcl2-patch](docs/gui.png)
+<a href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">
+  <img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC-2B6CF6?style=for-the-badge" alt="下载最新版本" />
+</a>
+<a href="https://github.com/ShiraiFyuya/pcl2-patch/releases">
+  <img src="https://img.shields.io/github/v/release/ShiraiFyuya/pcl2-patch?style=for-the-badge&label=%E7%89%88%E6%9C%AC&color=2B6CF6" alt="版本" />
+</a>
+<a href="LICENSE">
+  <img src="https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF-GPL--3.0-1E9E5A?style=for-the-badge" alt="许可" />
+</a>
+
+<br/>
+
+<a href="https://github.com/Meloong-Git/PCL">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2FMeloong-Git%2FPCL%2Fcommits%3Fpath%3DPlain%2520Craft%2520Launcher%25202%2FMy%2520Project%2FAssemblyInfo.vb%26per_page%3D1&query=%24%5B0%5D.commit.message&label=PCL2%20%E6%9C%80%E6%96%B0&color=4A5568" alt="PCL2 最新" />
+</a>
+<img src="https://img.shields.io/badge/%E9%80%82%E9%85%8D-2.99.0.0%20%7C%202.99.0.1-4A5568" alt="适配" />
+<img src="https://img.shields.io/badge/Windows-10%20%2F%2011-4A5568" alt="Windows" />
+
+<br/><br/>
+
+<img src="docs/hero.png" width="100%" alt="界面预览" />
+
+</div>
+
+---
 
 ## 效果
 
-<p align="center">
-  <img src="docs/before-after.png" alt="before / after" width="100%">
-</p>
-
-## 能做什么
-
-- **下载 Minecraft** —— 「下载 → 原版游戏」可以正常列出版本，Forge / NeoForge / Fabric / OptiFine / LiteLoader 全流程可用
-- **安装整合包** —— 资源页点版本直接开始安装，不用「另存为后自己解压」
-- **更新提示** —— 默认只在你手动检查时提示，不会在后台自行替换启动器文件
+<div align="center">
+  <img src="docs/before-after.png" width="100%" alt="补丁前后对比" />
+</div>
 
 ## 支持版本
 
 | PCL 版本 | 状态 | 补丁项 | 说明 |
-| --- | --- | --- | --- |
-| `2.99.0.1` | ✅ 已适配 | 7 项 | 含「原版游戏」入口与启动页下载按钮的还原 |
-| `2.99.0.0` | ✅ 已适配 | 5 项 | 另 2 项该版本没有对应改动，自动跳过 |
-| 其它版本 | ⚠️ 未适配 | — | 拖进工具会逐项显示能否定位；未适配的项需要等工具更新 |
+| :--- | :---: | :---: | :--- |
+| `2.99.0.1` | ✅ 已适配 | **7** | 含「原版游戏」入口与启动页下载按钮的还原 |
+| `2.99.0.0` | ✅ 已适配 | **5** | 另 2 项该版本没有对应改动，自动跳过 |
+| 其它版本 | ⚠️ 未适配 | — | 拖进工具会逐项显示能否定位，未适配项标红并写明原因 |
 
-版本号取自 exe 的「文件版本」（右键 → 属性 → 详细信息），工具也会在界面顶部显示读到的是什么版本。
+版本号取自 exe 的「文件版本」（右键 → 属性 → 详细信息），工具顶部也会显示读取到的版本。
 
-遇到没适配的版本，界面会把不可用的项标红并写明原因，不会写坏文件。
-## 使用
+## 快速开始
 
-先挑一个下载，两个功能、效果、产物**完全一样**，只是运行环境不同：
+**第一步 · 选一个下载**（两个功能、效果、产物完全一致，只是运行环境不同）
 
 | 文件 | 大小 | 什么时候用 |
-| --- | --- | --- |
-| **`pcl2-patch-gui.exe`** | 约 300 KB | 默认选这个。用系统自带的 .NET Framework 4.8（Win10 1809+ / Win11 预装），启动快、体积小 |
+| :--- | :---: | :--- |
+| **`pcl2-patch-gui.exe`** | **约 300 KB** | **推荐**。跑在 Windows 自带的 .NET Framework 4.8 上（Win10 1809+ / Win11 预装），启动快、体积小 |
 | `pcl2-patch-gui-net9.exe` | 约 58 MB | 系统被精简、4.8 缺失或损坏时用。自带 .NET 9 运行时，不依赖系统组件 |
 
-然后：
+**第二步 · 打补丁**
 
 1. 打开工具，把 `Plain Craft Launcher 2.exe` 拖进窗口（或点「选择…」）；
-2. 检查项全绿（2.99.0.0 为 5 项、2.99.0.1 为 7 项）后，点「打补丁」；
-3. 确认即可，过程全自动：**备份 → 写入 → 自检**。
+2. 等检查项全绿（`2.99.0.1` 为 7 项、`2.99.0.0` 为 5 项），点「打补丁」；
+3. 确认即可 —— 自动完成 **备份 → 写入 → 自检**。
 
-界面上的两个开关：
+**回滚**：同目录下会生成 `Plain Craft Launcher 2.exe.bak`，覆盖回去即可。
 
-| 开关 | 作用 |
-| --- | --- |
-| 关闭静默自动更新 | 不在后台自动替换启动器，改为手动检查时提示 |
-| 整合包版本行点击 → 安装 | 点版本直接安装，而不是先另存为 |
+> ⚠️ 打完**不要点 PCL 的「检查更新」**，会覆盖成官方版；更新后重跑一次本工具即可。
 
 ## 常见问题
 
-**打完补丁，PCL 又更新了怎么办？**
-再打一次就行。启动器更新会覆盖文件，重新打开本工具点一下即可。
+<details>
+<summary><b>会不会改坏文件？</b></summary>
 
-**怎么还原？**
-同一目录下会自动生成 `Plain Craft Launcher 2.exe.bak`，用它覆盖回去即可。
+不会。工具先复制副本再操作，写入前后各探测一次，全部通过才落盘；中途失败不会动原文件。
+</details>
 
-**支持哪些版本？**
-见上面的[支持版本](#支持版本)表。工具会**按版本自动选择补丁**：`2.99.0.1` 起作者隐藏了若干下载入口，会额外打两项。
+<details>
+<summary><b>要不要装 .NET？</b></summary>
 
-**要不要装 .NET？**
-默认的 `pcl2-patch-gui.exe` 不用，它跑在 Windows 自带的 .NET Framework 4.8 上（Win10 1809+ / Win11 预装）。万一你的系统缺 4.8，换 `pcl2-patch-gui-net9.exe`，那个自带运行时。
-**会不会改坏文件？**
-不会。工具先复制副本再操作，写入前后各检查一次，中途失败不会动原文件。
+默认的 `pcl2-patch-gui.exe` 不用，它跑在 Windows 自带的 .NET Framework 4.8 上（Win10 1809+ / Win11 预装）。
+
+万一系统缺 4.8（精简版系统常见），换 `pcl2-patch-gui-net9.exe`，那个自带运行时。
+</details>
+
+<details>
+<summary><b>PCL 更新了怎么办？</b></summary>
+
+启动器更新会覆盖文件，补丁随之失效。重跑一次本工具即可；如果新版本还没适配，界面会把不可用的项标红说明原因，不会写坏。
+</details>
+
+<details>
+<summary><b>和别的「解除限制」工具有什么不同？</b></summary>
+
+- **按版本适配**：补丁项按 PCL 版本挂载，新版本新增的隐藏逻辑会被单独处理，而不是一套补丁硬套所有版本；
+- **不注入任何东西**：只还原 PCL 原本的行为，不往目标程序里加弹窗、注册表项或后台逻辑；
+- **写入有自检**：定位失败、指纹不符时一律中止，绝不强写。
+
+</details>
+
+<details>
+<summary><b>为什么本地导入整合包还是禁用的？</b></summary>
+
+这是有意的设计。本地导入会解压任意压缩包，而 PCL 的整合包安装流程会扫描包内 `*.exe` 并询问用户“是否换用它继续安装”——这是一条现成的诱导执行路径。本工具只恢复「从 PCL 内下载」的安装链路，来源可溯源的才放行。
+</details>
+
+## 技术实现
+
+引擎基于 [Mono.Cecil](https://github.com/jbevain/cecil)：读入程序集、在内存里改 IL、写回新文件。**仓库不含 PCL 的任何原始字节** —— 定位完全依赖类型名、方法签名、IL 结构与数据流，例如「`PageLoaderInit` 调用前最后一个 `newobj LoaderTask<,>`」「`OpenZip` 的返回值落进了哪个局部变量」。
+
+原理、补丁清单与「PCL 出新版本后怎么做适配」见 [docs/TECHNICAL.md](docs/TECHNICAL.md)。
 
 ## 从源码构建
 
@@ -80,18 +122,16 @@ cd pcl2-patch
 dotnet build pcl2-patch.sln -c Release
 ```
 
-推 `v*` tag 会触发自动构建，产物见 Releases。
+推 `v*` tag 会触发自动构建，同时产出 `.NET Framework 4.8` 与 `.NET 9` 两个版本并挂到 Release。
 
-## 更多
+---
 
-实现细节、补丁清单，以及「PCL 出新版本后怎么做适配」见 [docs/TECHNICAL.md](docs/TECHNICAL.md)。
+<div align="center">
+<sub>
 
-## 许可
+本项目采用 [GPL-3.0](LICENSE) 许可 · Copyright © 2026 ShiraiFyuya
 
-[GPL-3.0](LICENSE) · Copyright (C) 2026 ShiraiFyuya
+仅用于自己拥有的副本 · 与 PCL 官方无关 · 使用前请自行评估风险
 
-- 可以自由使用、修改、分发，也可以收费分发；
-- 但**分发修改版时必须一并提供源码**，并沿用 GPL-3.0、保留原作者的版权声明；
-- 也就是说：**改名打包、闭源拿去卖，是违反本协议的**。
-
-发现有人违反协议转卖，欢迎 [开 issue](../../issues) 告诉我。
+</sub>
+</div>
