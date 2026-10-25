@@ -69,10 +69,7 @@ PCL 每发一个新版本，都要做一次**适配**：确认五个补丁还能
 ```bat
 dotnet build pcl2-patch.sln -c Release
 
-dotnet publish src\Pcl2Patch.Gui\Pcl2Patch.Gui.csproj -c Release -r win-x64 ^
-  --self-contained true /p:PublishSingleFile=true ^
-  /p:EnableCompressionInSingleFile=true ^
-  /p:IncludeNativeLibrariesForSelfExtract=true -o dist
+dotnet publish src\Pcl2Patch.Gui\Pcl2Patch.Gui.csproj -c Release -o dist
 ```
 
 推 `v*` tag 会触发 `.github/workflows/release.yml`，自动编译单文件并挂到 Release。

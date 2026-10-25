@@ -76,7 +76,7 @@ public static class Patcher
         bool backup, Action<string> log)
     {
         var run = new PatchRun { TargetPath = outputPath ?? inputPath };
-        log ??= _ => { };
+        if (log == null) log = _ => { };
 
         var work = Path.Combine(Path.GetTempPath(), "pcl2-patch-" + Guid.NewGuid().ToString("N") + ".exe");
         File.Copy(inputPath, work, true);
@@ -186,6 +186,6 @@ public static class Patcher
     {
         using var sha = SHA256.Create();
         using var fs = File.OpenRead(path);
-        return Convert.ToHexString(sha.ComputeHash(fs));
+        return BitConverter.ToString(sha.ComputeHash(fs)).Replace("-", "");
     }
 }
