@@ -13,7 +13,9 @@
 <a href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">
   <img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC-2B6CF6?style=for-the-badge" alt="下载最新版本" />
 </a>
-<a href="https://github.com/ShiraiFyuya/pcl2-patch/releases">
+<a href="https://shiraifyuya.github.io/pcl2-patch/">
+  <img src="https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%B8%BB%E9%A1%B5-shiraifyuya.github.io-4A5568" alt="在线主页" />
+</a><a href="https://github.com/ShiraiFyuya/pcl2-patch/releases">
   <img src="https://img.shields.io/github/v/release/ShiraiFyuya/pcl2-patch?style=for-the-badge&label=%E7%89%88%E6%9C%AC&color=2B6CF6" alt="版本" />
 </a>
 <a href="LICENSE">
