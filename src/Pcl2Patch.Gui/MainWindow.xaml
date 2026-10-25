@@ -1,0 +1,159 @@
+<Window x:Class="Pcl2Patch.Gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="pcl2-patch" Height="660" Width="840" MinHeight="560" MinWidth="720"
+        Background="#F5F6F8" FontFamily="Microsoft YaHei UI, Segoe UI" FontSize="13"
+        AllowDrop="True" DragOver="Window_DragOver" Drop="Window_Drop">
+
+    <Window.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#2B6CF6" />
+            <Setter Property="Padding" Value="20,9" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#1F58D6" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#B7C5DC" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GhostButton" TargetType="Button">
+            <Setter Property="Foreground" Value="#33415C" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="16,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                                BorderBrush="#D9DFE9" BorderThickness="1"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#EEF2F9" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#9AA6BA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="BorderBrush" Value="#E4E8EF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="14" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 标题 -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="pcl2-patch" FontSize="22" FontWeight="Bold" Foreground="#1B2436" />
+            <TextBlock Margin="0,3,0,0" Foreground="#6B778C"
+                       Text="让 PCL2 的下载页与整合包安装正常工作 · 打完自动备份，随时可回滚" />
+        </StackPanel>
+
+        <!-- 文件卡片 -->
+        <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,14,0,0">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="PathBox" Grid.Column="0" IsReadOnly="True" BorderThickness="0"
+                             Background="Transparent" VerticalAlignment="Center"
+                             Text="把 Plain Craft Launcher 2.exe 拖进来，或点右侧按钮选择" Foreground="#33415C" />
+                    <Button x:Name="BtnBrowse" Grid.Column="1" Style="{StaticResource GhostButton}"
+                            Content="选择…" Click="BtnBrowse_Click" />
+                </Grid>
+                <TextBlock x:Name="FileInfo" Margin="0,8,0,0" FontSize="12" Foreground="#6B778C"
+                           Text="尚未选择文件" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <!-- 选项 -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2,12,0,0">
+            <CheckBox x:Name="ChkAutoUpdate" Content="关闭静默自动更新" IsChecked="True"
+                      VerticalAlignment="Center" Margin="0,0,20,0" />
+            <CheckBox x:Name="ChkRowClick" Content="整合包版本行点击 → 安装" IsChecked="True"
+                      VerticalAlignment="Center" />
+        </StackPanel>
+
+        <!-- 结果 -->
+        <Border Grid.Row="3" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="6">
+            <Grid>
+                <TextBlock x:Name="EmptyHint" Text="拖入文件后这里会显示六项检查结果"
+                           Foreground="#9AA6BA" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <ScrollViewer x:Name="ResultsScroll" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="Results">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="8,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28" />
+                                        <ColumnDefinition Width="170" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Mark}" FontWeight="Bold"
+                                               Foreground="{Binding Color}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Title}" Foreground="#1B2436" />
+                                    <TextBlock Grid.Column="2" Text="{Binding Detail}" Foreground="#6B778C"
+                                               TextWrapping="Wrap" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- 按钮 -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+            <Button x:Name="BtnProbe" Style="{StaticResource GhostButton}" Content="重新体检"
+                    Click="BtnProbe_Click" Margin="0,0,10,0" />
+            <Button x:Name="BtnOpenFolder" Style="{StaticResource GhostButton}" Content="打开所在文件夹"
+                    Click="BtnOpenFolder_Click" Margin="0,0,10,0" />
+            <Button x:Name="BtnPatch" Style="{StaticResource PrimaryButton}" Content="打补丁"
+                    Click="BtnPatch_Click" />
+        </StackPanel>
+
+        <!-- 日志 -->
+        <Border Grid.Row="5" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="10">
+            <TextBox x:Name="LogBox" Height="132" IsReadOnly="True" BorderThickness="0"
+                     Background="Transparent" FontFamily="Consolas, Microsoft YaHei UI" FontSize="12"
+                     Foreground="#4A5568" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
+        </Border>
+    </Grid>
+</Window>
