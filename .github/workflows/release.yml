@@ -21,18 +21,34 @@ jobs:
       - name: Build
         run: dotnet build pcl2-patch.sln -c Release
 
-      - name: Publish single-file GUI
-        run: dotnet publish src/Pcl2Patch.Gui/Pcl2Patch.Gui.csproj -c Release -o dist
+      # 小体积版：用系统自带的 .NET Framework 4.8，Costura 打成单文件
+      - name: Publish net48
+        run: dotnet publish src/Pcl2Patch.Gui/Pcl2Patch.Gui.csproj -c Release -f net48 -o dist
+
+      # 自包含版：自带 .NET 9 运行时，不依赖系统组件
+      - name: Publish net9
+        run: >
+          dotnet publish src/Pcl2Patch.Gui/Pcl2Patch.Gui.csproj
+          -c Release -f net9.0-windows
+          -r win-x64 --self-contained true
+          -p:PublishSingleFile=true
+          -p:EnableCompressionInSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -o dist/net9
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: pcl2-patch-gui
-          path: dist/pcl2-patch-gui.exe
+          path: |
+            dist/pcl2-patch-gui.exe
+            dist/net9/pcl2-patch-gui-net9.exe
 
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/pcl2-patch-gui.exe
+          files: |
+            dist/pcl2-patch-gui.exe
+            dist/net9/pcl2-patch-gui-net9.exe
           generate_release_notes: true
