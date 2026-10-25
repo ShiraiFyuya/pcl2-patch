@@ -48,13 +48,13 @@ pcl2-patch/
 
 ## 适配新版本
 
-PCL 更新后，界面上失配的那一项会直接说明原因，例如：
+PCL 每发一个新版本，都要做一次**适配**：确认五个补丁还能定位到对应代码，必要时调整锚点。界面上失配的那一项会直接说明原因，例如：
 
 ```
 [!] Minecraft 版本下载   PageLoaderInit 前找不到 LoaderTask<,> 构造
 ```
 
-这时只需要改 `src/Pcl2Patch.Core/Patches.cs` 里对应的那个 `static PatchOutcome Xxx(...)`：
+适配时只需要改 `src/Pcl2Patch.Core/Patches.cs` 里对应的那个 `static PatchOutcome Xxx(...)`：
 
 1. 用 dnSpy / ILSpy 打开新版 PCL，看同类方法的结构；
 2. 调整定位条件（通常只是换一个锚点指令或调用）；

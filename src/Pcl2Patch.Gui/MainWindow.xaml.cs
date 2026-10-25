@@ -97,8 +97,8 @@ public partial class MainWindow : Window
             var failed = outcomes.Count(x => x.State == PatchState.Failed);
             var done = outcomes.All(x => x.State is PatchState.Already or PatchState.Skipped);
             Log(done ? "该文件已处理过，无需再打补丁。" :
-                failed > 0 ? $"{failed} 项无法定位 —— 该构建可能已被官方修复，或结构有变。" :
-                $"{outcomes.Count(x => x.State == PatchState.Applied)} 项全部可定位，点「打补丁」开始。");
+                failed > 0 ? $"{failed} 项未适配 —— 本工具还没跟上这个版本。" :
+                $"{outcomes.Count(x => x.State == PatchState.Applied)} 项适配通过，点「打补丁」开始。");
         }
         catch (Exception ex)
         {
@@ -156,7 +156,7 @@ public partial class MainWindow : Window
         {
             var outcomes = await Task.Run(() => Patcher.Probe(path: _path, options));
             ShowOutcomes(outcomes);
-            Log($"体检完成：{outcomes.Count(x => x.State == PatchState.Applied)} 项可打");
+            Log($"体检完成：{outcomes.Count(x => x.State == PatchState.Applied)} 项适配通过");
         }
         catch (Exception ex)
         {

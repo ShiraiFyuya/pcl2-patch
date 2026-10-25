@@ -114,7 +114,7 @@
         <!-- 结果 -->
         <Border Grid.Row="3" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="6">
             <Grid>
-                <TextBlock x:Name="EmptyHint" Text="拖入文件后这里会显示六项检查结果"
+                <TextBlock x:Name="EmptyHint" Text="拖入文件后这里会显示五项适配状态"
                            Foreground="#9AA6BA" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <ScrollViewer x:Name="ResultsScroll" VerticalScrollBarVisibility="Auto">
                     <ItemsControl x:Name="Results">
