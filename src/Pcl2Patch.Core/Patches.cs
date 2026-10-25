@@ -41,6 +41,7 @@ public static class Patches
     public static readonly (string Id, string Title)[] Catalog =
     {
         ("download",   "Minecraft 版本下载"),
+        ("nav",        "下载入口"),
         ("modpack",    "整合包安装分派"),
         ("rowclick",   "整合包版本行点击"),
         ("silent",     "静默自动更新"),
@@ -54,6 +55,11 @@ public static class Patches
             Download(c, o, dry),
             Modpack(c, o, dry),
         };
+
+        var ver = c.Asm.Name.Version;
+        list.Add(ver >= new Version(2, 99, 0, 1)
+            ? DownloadNav(c, o, dry)
+            : Skip("nav", "下载入口", "该版本无此改动"));
 
         list.Add(o.NoRowClick
             ? Skip("rowclick", "整合包版本行点击", "--no-row-click")
@@ -326,6 +332,42 @@ public static class Patches
         Ctx.BumpStack(target, 8);
     }
 
+    // =======================================================================
+    // 2.5 下载入口（2.99.0.1 起把「原版游戏」藏掉了）
+    //     2.99.0.1 的 PageDownloadLeft 构造函数在 InitializeComponent 之后追加了：
+    //         ItemInstall.Visibility = Collapsed / LabResource.Visibility = Collapsed
+    //         PageID = DownloadMod / ItemMod.Checked = True
+    //     把它之后到 ret 之间的语句全部去掉，即恢复成 2.99.0.0 的构造行为。
+    // =======================================================================
+    static PatchOutcome DownloadNav(Ctx c, PatchOptions o, bool dry)
+    {
+        const string id = "nav", title = "下载入口";
+        try
+        {
+            var ctor = c.Method("PCL.PageDownloadLeft", ".ctor", 0);
+            var body = ctor.Body;
+
+            var init = body.Instructions.FirstOrDefault(i =>
+                    i.OpCode == OpCodes.Call && i.Operand is MethodReference r && r.Name == "InitializeComponent")
+                ?? throw new PatchException("找不到 InitializeComponent 调用");
+
+            var hides = body.Instructions.Count(i =>
+                i.OpCode == OpCodes.Callvirt && i.Operand is MethodReference r && r.Name == "set_Visibility");
+            if (hides == 0)
+                return Ok(id, title, PatchState.Already, "该文件没有入口隐藏逻辑");
+
+            if (dry)
+                return Ok(id, title, PatchState.Applied, $"可定位（清除 {hides} 处 Visibility 赋值）");
+
+            var il = body.GetILProcessor();
+            var remove = new List<Instruction>();
+            for (var i = init.Next; i != null && i.OpCode != OpCodes.Ret; i = i.Next) remove.Add(i);
+            foreach (var ins in remove) il.Remove(ins);
+
+            return Ok(id, title, PatchState.Applied, $"恢复「原版游戏」入口（移除 {remove.Count} 条隐藏语句）");
+        }
+        catch (PatchException ex) { return Fail(id, title, ex.Message); }
+    }
     // =======================================================================
     // 3. 整合包版本行点击 -> 安装
     // =======================================================================
