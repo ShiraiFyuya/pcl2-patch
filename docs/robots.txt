@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://shiraifyuya.github.io/pcl2-patch/sitemap.xml

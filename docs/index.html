@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PCL2 下载修复补丁 · pcl2-patch</title>
+<meta name="description" content="PCL2 2.99 的下载页用不了？pcl2-patch 一键恢复 Minecraft 原版下载与整合包安装，图形化操作，自动备份，支持回滚。已适配 PCL 2.99.0.0 / 2.99.0.1。" />
+<meta name="keywords" content="PCL2, PCL2下载不了, PCL2下载限制, PCL2整合包安装, PCL2 2.99, 我的世界启动器, 补丁工具" />
+<link rel="icon" href="logo.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="PCL2 下载修复补丁 · pcl2-patch" />
+<meta property="og:description" content="一键恢复 PCL2 的 Minecraft 下载页与整合包安装，图形化、自动备份、支持回滚。" />
+<meta property="og:image" content="hero.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "pcl2-patch",
+  "alternateName": "PCL2 下载修复补丁",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "为 Plain Craft Launcher 2 提供下载页与整合包安装的修复补丁，图形化操作，自动备份，支持回滚。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+  "license": "https://github.com/ShiraiFyuya/pcl2-patch/blob/main/LICENSE",
+  "url": "https://shiraifyuya.github.io/pcl2-patch/",
+  "downloadUrl": "https://github.com/ShiraiFyuya/pcl2-patch/releases/latest"
+}
+</script>
+<style>
+  :root {
+    --blue: #2b6cf6;
+    --blue-dark: #1d4ed8;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --bg: #f8fafc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei UI", "PingFang SC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  header { text-align: center; padding: 72px 0 40px; }
+  header img.logo { width: 88px; height: 88px; }
+  h1 { font-size: 42px; margin: 18px 0 8px; letter-spacing: -0.5px; }
+  .sub { color: var(--muted); font-size: 17px; margin: 0 0 8px; }
+  .tags { color: #94a3b8; font-size: 13px; letter-spacing: 0.4px; }
+  .btns { margin-top: 28px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 12px 26px; border-radius: 10px;
+    font-weight: 600; text-decoration: none; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 8px 20px rgba(43,108,246,.28); }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); background: #fff; }
+  .shot { margin: 40px 0 0; text-align: center; }
+  .shot img { width: 100%; max-width: 880px; border-radius: 14px; box-shadow: 0 24px 60px rgba(15,23,42,.16); }
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--line); }
+  h2 { font-size: 26px; margin: 0 0 20px; }
+  h2 .en { color: #cbd5e1; font-weight: 500; font-size: 15px; margin-left: 10px; }
+  p.lead { color: var(--muted); margin-top: -6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,.06); }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+  th { background: #f1f5f9; font-weight: 600; font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  code { background: #eef2f7; padding: 2px 6px; border-radius: 5px; font-size: 13px; }
+  ol { padding-left: 22px; }
+  ol li { margin: 8px 0; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14px; }
+  details { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { margin: 10px 0 0; color: var(--muted); }
+  footer { text-align: center; color: #94a3b8; font-size: 13px; padding: 40px 0 60px; }
+  footer a { color: var(--muted); }
+  @media (max-width: 640px) {
+    h1 { font-size: 32px; }
+    header { padding-top: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <img class="logo" src="logo.png" alt="pcl2-patch" />
+  <h1>PCL2 下载修复补丁</h1>
+  <p class="sub">让 Plain Craft Launcher 2 的下载页与整合包安装重新工作</p>
+  <p class="tags">图形化 · 按版本适配 · 自动备份 · 随时可回滚</p>
+  <div class="btns">
+    <a class="btn btn-primary" href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">下载最新版本</a>
+    <a class="btn btn-ghost" href="https://github.com/ShiraiFyuya/pcl2-patch">GitHub 仓库</a>
+  </div>
+  <div class="shot">
+    <img src="hero.png" alt="pcl2-patch 界面：六项检查全部适配通过" />
+  </div>
+</header>
+
+<section class="wrap">
+  <h2>补丁前后<span class="en">Before / After</span></h2>
+  <p class="lead">PCL2 2.99 起把 Minecraft 下载功能收掉了；打完补丁，下载页恢复原样。</p>
+  <div class="shot" style="margin-top:0">
+    <img src="before-after.png" alt="补丁前后对比：左侧显示「为遵守相关法律法规，PCL 暂时不再提供 MC 下载功能」，右侧恢复版本列表" />
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>支持版本<span class="en">Supported</span></h2>
+  <table>
+    <thead><tr><th>PCL 版本</th><th>状态</th><th>补丁项</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><code>2.99.0.1</code></td><td>✅ 已适配</td><td>7</td><td>含「原版游戏」入口与启动页下载按钮的还原</td></tr>
+      <tr><td><code>2.99.0.0</code></td><td>✅ 已适配</td><td>5</td><td>另 2 项该版本没有对应改动，自动跳过</td></tr>
+      <tr><td>其它版本</td><td>⚠️ 未适配</td><td>—</td><td>工具会逐项显示能否定位，未适配项标红并写明原因</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="wrap">
+  <h2>怎么用<span class="en">Quick Start</span></h2>
+  <p class="lead">下载一个单文件 exe，双击打开。</p>
+  <table style="margin-bottom:20px">
+    <thead><tr><th>文件</th><th>大小</th><th>适用</th></tr></thead>
+    <tbody>
+      <tr><td><code>pcl2-patch-gui.exe</code></td><td>约 320 KB</td><td>推荐。用 Windows 自带的 .NET Framework 4.8</td></tr>
+      <tr><td><code>pcl2-patch-gui-net9.exe</code></td><td>约 58 MB</td><td>系统精简、4.8 缺失或损坏时用，自带 .NET 9 运行时</td></tr>
+    </tbody>
+  </table>
+  <ol>
+    <li>打开工具，把 <code>Plain Craft Launcher 2.exe</code> 拖进窗口；</li>
+    <li>等检查项全绿，点「打补丁」；</li>
+    <li>确认即可，自动完成 <strong>备份 → 写入 → 自检</strong>。</li>
+  </ol>
+  <p class="lead" style="margin-top:16px">回滚：同目录下会生成 <code>Plain Craft Launcher 2.exe.bak</code>，覆盖回去即可。</p>
+</section>
+
+<section class="wrap">
+  <h2>特点<span class="en">Why</span></h2>
+  <div class="cards">
+    <div class="card"><h3>按版本适配</h3><p>补丁项按 PCL 版本挂载，新版本新增的隐藏逻辑单独处理，而不是一套补丁硬套所有版本。</p></div>
+    <div class="card"><h3>不注入任何东西</h3><p>只还原 PCL 原本的行为，不往目标程序里加弹窗、注册表项或后台逻辑。</p></div>
+    <div class="card"><h3>写入有自检</h3><p>先探测后写入，写完回读再验一遍；定位失败一律中止，绝不强写。</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>常见问题<span class="en">FAQ</span></h2>
+  <details><summary>会不会改坏文件？</summary><p>不会。工具在副本上操作，写入前后各探测一次，全部通过才落盘。</p></details>
+  <details><summary>要不要装 .NET？</summary><p>默认的 <code>pcl2-patch-gui.exe</code> 不用，它跑在 Windows 自带的 .NET Framework 4.8 上（Win10 1809+ / Win11 预装）。</p></details>
+  <details><summary>PCL 更新了怎么办？</summary><p>更新会覆盖文件，补丁随之失效。重跑一次本工具即可。</p></details>
+  <details><summary>打完要注意什么？</summary><p>不要点 PCL 的「检查更新」，会覆盖成官方版；更新后重跑一次即可。</p></details>
+</section>
+
+<footer class="wrap">
+  本项目采用 <a href="https://github.com/ShiraiFyuya/pcl2-patch/blob/main/LICENSE">GPL-3.0</a> 许可 · Copyright © 2026 ShiraiFyuya<br />
+  与 PCL 官方无关 · 仅用于自己拥有的副本 · 使用前请自行评估风险
+</footer>
+
+</body>
+</html>
