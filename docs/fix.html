@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PCL2 下载不了 Minecraft 怎么办？2.99 版本下载修复完整指南</title>
+<meta name="description" content="PCL2 2.99 打开下载页只看到「为遵守相关法律法规，PCL 暂时不再提供 MC 下载功能」？本文说明原因、给出可用的修复方法，并附图形化补丁工具下载。" />
+<meta name="keywords" content="PCL2下载不了, PCL2下载修复, PCL2 2.99 下载, PCL2没有下载功能, PCL2下载页, Minecraft启动器" />
+<link rel="icon" href="logo.png" />
+<link rel="stylesheet" href="style.css" />
+<link rel="canonical" href="https://shiraifyuya.github.io/pcl2-patch/fix.html" />
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <img src="logo.png" alt="" />
+    <a class="brand" href="index.html">pcl2-patch</a>
+    <a href="index.html">首页</a>
+    <a href="modpack.html">整合包安装</a>
+    <a href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">下载</a>
+  </div>
+</nav>
+
+<article class="wrap">
+  <h1>PCL2 下载不了 Minecraft 怎么办？2.99 版本下载修复指南</h1>
+  <p class="meta">适用版本：PCL2 2.99.0.0 / 2.99.0.1 · 更新于 2026-10</p>
+
+  <p>如果你最近打开 Plain Craft Launcher 2（PCL2）的「下载」页，看到的是一行红字：</p>
+  <p class="note">为遵守相关法律法规，PCL 暂时不再提供 MC 下载功能，非常抱歉 qwq……</p>
+  <p>这不是你的安装坏了，也不是网络问题。从 <strong>PCL2 2.99</strong> 开始，作者在代码里加了一个编译期开关 <code>RestrictMcDownload</code>，把原版游戏下载链路整体关掉了；到 <strong>2.99.0.1</strong> 更进一步，连「原版游戏」这个左侧入口和启动页的下载按钮也一起隐藏了。</p>
+
+  <h2>先说结论：有三条路</h2>
+  <ol>
+    <li><strong>降级到 2.14.x</strong>：还能用，但会失去 2.99 的新功能与修复；</li>
+    <li><strong>手动改用其他启动器</strong>：HMCL、PCL-CE 等，但版本、整合包要重新整理；</li>
+    <li><strong>给现有 PCL2 打补丁</strong>：保留最新版本，只把被关掉的下载能力还原回来 —— 也就是 <a href="index.html">pcl2-patch</a> 做的事。</li>
+  </ol>
+
+  <h2>为什么会变成这样</h2>
+  <p>PCL2 是开源项目，作者在源码里把相关代码保留成了两个分支：</p>
+  <ul>
+    <li>当 <code>RestrictMcDownload = True</code> 时，走「关闭下载」的提示分支；</li>
+    <li>当它为 <code>False</code> 时，走正常的 <code>DlClientListLoader</code> 加载分支。</li>
+  </ul>
+  <p>发布版把常量编成了 <code>True</code>，但正确的那条分支其实还在编译产物里。所以修复不需要重新实现功能，只需要把执行路径改回原本的那条分支 —— 这也是补丁体积小、风险低的原因。</p>
+
+  <h2>用 pcl2-patch 修复（推荐）</h2>
+  <p>工具是一个单文件 exe，图形界面，三步完成：</p>
+  <ol>
+    <li>从 <a href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">Releases</a> 下载 <code>pcl2-patch-gui.exe</code>（约 320 KB）；</li>
+    <li>打开后把 <code>Plain Craft Launcher 2.exe</code> 拖进窗口，等检查项全绿；</li>
+    <li>点「打补丁」并确认。工具会自动备份成 <code>.exe.bak</code>，写入后回读自检。</li>
+  </ol>
+  <p>打完重新启动 PCL2，「下载」页就会恢复成正常的版本列表。</p>
+
+  <div class="cta">
+    <h3>下载 pcl2-patch</h3>
+    <p>已适配 PCL2 <code>2.99.0.0</code> 与 <code>2.99.0.1</code>，自动备份、随时可回滚。</p>
+    <a class="btn" href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">前往下载</a>
+  </div>
+
+  <h2>常见疑问</h2>
+  <h3>会不会把启动器改坏？</h3>
+  <p>工具在副本上操作，写入前后各探测一次，任何一步不通过都不会动原文件；并且会留下 <code>.bak</code> 备份，覆盖回去即可还原。</p>
+
+  <h3>PCL2 更新后补丁会失效吗？</h3>
+  <p>会。启动器更新会用官方文件覆盖，补丁随之消失。重新跑一次本工具即可。</p>
+
+  <h3>为什么不用「破解版」？</h3>
+  <p>网上流传的所谓破解版通常是整包替换，来源不可控、体积大、版本滞后，也可能被塞入额外程序。补丁只改被关闭的那几条执行路径，其余与官方版完全一致。</p>
+
+  <h3>打完补丁还能正常更新吗？</h3>
+  <p>能，但更新会覆盖补丁。建议在 PCL2 设置里关闭自动更新，需要升级时手动更新后再打一次。</p>
+
+  <p class="note">补丁仅用于你自己拥有的启动器副本；本项目与 PCL 官方无关，使用前请自行评估风险。</p>
+</article>
+
+<footer class="wrap">
+  <a href="index.html">首页</a> · <a href="modpack.html">整合包安装问题</a> ·
+  <a href="https://github.com/ShiraiFyuya/pcl2-patch">GitHub</a><br />
+  pcl2-patch · GPL-3.0 · Copyright © 2026 ShiraiFyuya
+</footer>
+
+</body>
+</html>

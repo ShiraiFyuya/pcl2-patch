@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PCL2 整合包安装失败 / 无法安装整合包 的解决办法（2.99 版本）</title>
+<meta name="description" content="PCL2 2.99 点击「安装」没反应、整合包安装按钮消失或报「不再提供 MC 下载功能」？本文解释原因并给出恢复整合包安装的完整步骤。" />
+<meta name="keywords" content="PCL2整合包安装, PCL2安装整合包失败, PCL2 2.99 整合包, PCL2整合包安装按钮没了, Modrinth整合包" />
+<link rel="icon" href="logo.png" />
+<link rel="stylesheet" href="style.css" />
+<link rel="canonical" href="https://shiraifyuya.github.io/pcl2-patch/modpack.html" />
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <img src="logo.png" alt="" />
+    <a class="brand" href="index.html">pcl2-patch</a>
+    <a href="index.html">首页</a>
+    <a href="fix.html">下载问题</a>
+    <a href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">下载</a>
+  </div>
+</nav>
+
+<article class="wrap">
+  <h1>PCL2 整合包安装失败怎么办？</h1>
+  <p class="meta">适用版本：PCL2 2.99.0.0 / 2.99.0.1</p>
+
+  <p>在 PCL2 的「下载 → 整合包」里点开一个整合包（比如 Modrinth 上的人气包），点击「安装」后没有反应，或者直接弹出：</p>
+  <p class="note">为遵守相关法律法规，PCL 不再提供 MC 下载功能，非常抱歉 qwq……</p>
+  <p>这不是你的操作问题，也不是网络问题 —— 是 PCL2 2.99 把整合包安装链路一起关掉了。</p>
+
+  <h2>为什么整合包也受影响</h2>
+  <p>在 PCL2 的代码里，整合包安装方法开头有一道判断：</p>
+  <ul>
+    <li>当 <code>RestrictMcDownload</code> 为真时，直接抛出异常，安装流程终止；</li>
+    <li>正常分支才会去找整合包对应的安装器（CurseForge / HMCL / MMC / MCBBS / Modrinth / 通用压缩包）。</li>
+  </ul>
+  <p>因为发布版把常量编成了 <code>True</code>，所有从「下载页」发起的安装都会走到抛异常那条路上。对于还保留整合包页的版本，安装按钮本身也可能被隐藏。</p>
+
+  <h2>怎么恢复</h2>
+  <p>用 <a href="index.html">pcl2-patch</a> 打一次补丁即可，它会把整合包安装的分派逻辑恢复成正常分支，并且按 PCL 版本自动选择对应的补丁项：</p>
+  <ol>
+    <li>下载 <code>pcl2-patch-gui.exe</code>（约 320 KB，免安装）；</li>
+    <li>把 <code>Plain Craft Launcher 2.exe</code> 拖进窗口；</li>
+    <li>检查项全绿后点「打补丁」，完成后重启 PCL2。</li>
+  </ol>
+  <p>之后从「下载 → 整合包」点安装就会正常进入下载与解压流程。</p>
+
+  <div class="cta">
+    <h3>下载 pcl2-patch</h3>
+    <p>同时修复「原版游戏下载」与「整合包安装」两条链路，自动备份、可回滚。</p>
+    <a class="btn" href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">前往下载</a>
+  </div>
+
+  <h2>关于「本地导入整合包」</h2>
+  <p>本工具<strong>不提供</strong>从本地压缩包导入整合包的能力，只恢复「从 PCL 内下载」的安装链路。原因很简单：下载来源的整合包来自 Modrinth、CurseForge 等有审核与哈希校验的源，可追溯；而本地导入会解压任意来源的压缩包，PCL 的安装流程还会扫描包内可执行文件并询问用户是否运行 —— 这是一条现成的诱导执行路径，不放出这个入口是有意为之。</p>
+
+  <h2>其它排查方向</h2>
+  <p>如果打完补丁仍然装不上，可以按这个顺序排查：</p>
+  <ul>
+    <li><strong>网络</strong>：Modrinth / CurseForge 的 CDN 在部分地区不稳定，PCL 设置里可以换下载源；</li>
+    <li><strong>磁盘空间</strong>：整合包动辄几百 MB，解压还需要额外空间；</li>
+    <li><strong>路径含中文或特殊字符</strong>：个别整合包对路径敏感，建议放在纯英文目录；</li>
+    <li><strong>Java 版本</strong>：安装完成后启动失败通常是 Java 不匹配，不是安装本身的问题。</li>
+  </ul>
+
+  <p class="note">补丁仅用于你自己拥有的启动器副本；本项目与 PCL 官方无关，使用前请自行评估风险。</p>
+</article>
+
+<footer class="wrap">
+  <a href="index.html">首页</a> · <a href="fix.html">下载问题</a> ·
+  <a href="https://github.com/ShiraiFyuya/pcl2-patch">GitHub</a><br />
+  pcl2-patch · GPL-3.0 · Copyright © 2026 ShiraiFyuya
+</footer>
+
+</body>
+</html>
