@@ -42,6 +42,7 @@ public static class Patches
     {
         ("download",   "Minecraft 版本下载"),
         ("nav",        "下载入口"),
+        ("entries",    "其余下载入口"),
         ("modpack",    "整合包安装分派"),
         ("rowclick",   "整合包版本行点击"),
         ("silent",     "静默自动更新"),
@@ -60,6 +61,10 @@ public static class Patches
         list.Add(ver >= new Version(2, 99, 0, 1)
             ? DownloadNav(c, o, dry)
             : Skip("nav", "下载入口", "该版本无此改动"));
+
+        list.Add(ver >= new Version(2, 99, 0, 1)
+            ? OtherEntries(c, o, dry)
+            : Skip("entries", "其余下载入口", "该版本无此改动"));
 
         list.Add(o.NoRowClick
             ? Skip("rowclick", "整合包版本行点击", "--no-row-click")
@@ -332,6 +337,102 @@ public static class Patches
         Ctx.BumpStack(target, 8);
     }
 
+    // =======================================================================
+    // 2.4 其余下载入口（2.99.0.1+）
+    //   (a) PageLaunchLeft.RefreshButtonsUI：无版本时状态 1(禁用) -> 2(可下载)
+    //   (b) PageSelectRight：无可用版本时的「下载游戏」按钮
+    //   (c) PageDownloadModify：修改版本页的原版组件卡片
+    // =======================================================================
+    static PatchOutcome OtherEntries(Ctx c, PatchOptions o, bool dry)
+    {
+        const string id = "entries", title = "其余下载入口";
+        try
+        {
+            var targets = new List<(MethodDefinition Method, Instruction Value)>();
+
+            var refresh = c.Method("PCL.PageLaunchLeft", "RefreshButtonsUI", 0);
+            var stateOne = FindStateAssignment(refresh, 1, 3);
+            if (stateOne != null) targets.Add((refresh, stateOne));
+
+            var emptyBtn = FindVisibilityAfterString(c.Type("PCL.PageSelectRight"), "无可用版本");
+            if (emptyBtn != null) targets.Add(emptyBtn.Value);
+
+            var card = FindVisibilityOf(c.Type("PCL.PageDownloadModify"), "get_CardMinecraft");
+            if (card != null) targets.Add(card.Value);
+
+            var pending = targets.Where(t => Il.I4(t.Value) != 0).ToList();
+            if (pending.Count == 0)
+                return Ok(id, title, PatchState.Already, "没有需要处理的入口");
+
+            if (dry)
+                return Ok(id, title, PatchState.Applied,
+                    $"可定位（{string.Join(" / ", pending.Select(t => t.Method.Name))}）");
+
+            foreach (var (_, value) in pending)
+            {
+                value.OpCode = OpCodes.Ldc_I4_0;
+                value.Operand = null;
+            }
+
+            return Ok(id, title, PatchState.Applied, $"恢复 {pending.Count} 处下载入口");
+        }
+        catch (PatchException ex) { return Fail(id, title, ex.Message); }
+    }
+
+    /// <summary>找「同一个局部先赋 a 再赋 b」里的那次 a 赋值（用于状态机）。</summary>
+    static Instruction FindStateAssignment(MethodDefinition m, int a, int b)
+    {
+        var values = new Dictionary<VariableDefinition, HashSet<int>>();
+        var firsts = new Dictionary<VariableDefinition, Instruction>();
+
+        foreach (var ins in m.Body.Instructions)
+        {
+            var n = Il.I4(ins);
+            if (n == null) continue;
+            var target = Il.StoreTarget(m.Body, ins.Next);
+            if (target == null) continue;
+
+            if (!values.TryGetValue(target, out var set)) { set = new HashSet<int>(); values[target] = set; }
+            set.Add(n.Value);
+            if (n.Value == a && !firsts.ContainsKey(target)) firsts[target] = ins;
+        }
+
+        foreach (var kv in values)
+            if (kv.Value.Contains(a) && kv.Value.Contains(b) && firsts.TryGetValue(kv.Key, out var ins))
+                return ins;
+        return null;
+    }
+
+    /// <summary>在包含某段文案的方法里，找到之后第一个 Visibility 赋值。</summary>
+    static (MethodDefinition Method, Instruction Value)? FindVisibilityAfterString(TypeDefinition t, string text)
+    {
+        foreach (var m in t.Methods.Where(x => x.HasBody))
+        {
+            Instruction marker = null;
+            foreach (var ins in m.Body.Instructions)
+                if (ins.OpCode == OpCodes.Ldstr && ins.Operand is string s && s.Contains(text)) { marker = ins; break; }
+            if (marker == null) continue;
+
+            for (var i = marker.Next; i != null; i = i.Next)
+                if (i.OpCode == OpCodes.Callvirt && i.Operand is MethodReference r && r.Name == "set_Visibility")
+                    return (m, i.Previous);
+        }
+        return null;
+    }
+
+    /// <summary>找 getter 之后紧跟的那次 Visibility 赋值。</summary>
+    static (MethodDefinition Method, Instruction Value)? FindVisibilityOf(TypeDefinition t, string getter)
+    {
+        foreach (var m in t.Methods.Where(x => x.HasBody))
+            foreach (var ins in m.Body.Instructions)
+            {
+                if (ins.OpCode != OpCodes.Call || !(ins.Operand is MethodReference g) || g.Name != getter) continue;
+                for (var i = ins.Next; i != null; i = i.Next)
+                    if (i.OpCode == OpCodes.Callvirt && i.Operand is MethodReference r && r.Name == "set_Visibility")
+                        return (m, i.Previous);
+            }
+        return null;
+    }
     // =======================================================================
     // 2.5 下载入口（2.99.0.1 起把「原版游戏」藏掉了）
     //     2.99.0.1 的 PageDownloadLeft 构造函数在 InitializeComponent 之后追加了：

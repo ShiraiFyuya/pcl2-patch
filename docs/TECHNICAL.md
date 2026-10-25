@@ -30,6 +30,7 @@ pcl2-patch/
 | 4 | 屏蔽静默自动更新 | `ModSecret.UpdateStart(bool Silent, …)` |
 | 5 | 更新方式默认值改为「不更新」 | `Settings` 静态构造 |
 | 6 | 恢复「原版游戏」入口（仅 2.99.0.1+） | `PageDownloadLeft..ctor` |
+| 7 | 恢复启动页/空状态的下载入口（仅 2.99.0.1+） | `PageLaunchLeft.RefreshButtonsUI` · `PageSelectRight` |
 
 ## 定位方式
 
