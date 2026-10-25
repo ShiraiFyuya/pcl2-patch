@@ -2,7 +2,8 @@
 
 ![license](https://img.shields.io/badge/license-GPLv3-blue)
 ![platform](https://img.shields.io/badge/platform-Windows%2010%2F11-lightgrey)
-![PCL2](https://img.shields.io/badge/PCL2-2.99.0.0-2B6CF6)
+![PCL2](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2FMeloong-Git%2FPCL%2Fcommits%3Fpath%3DPlain%2520Craft%2520Launcher%25202%2FMy%2520Project%2FAssemblyInfo.vb%26per_page%3D1&query=%24%5B0%5D.commit.message&label=PCL2%20%E6%9C%80%E6%96%B0&color=2B6CF6)
+![适配](https://img.shields.io/badge/%E9%80%82%E9%85%8D-2.99.0.0%20%7C%202.99.0.1-1E9E5A)
 
 为 [Plain Craft Launcher 2](https://github.com/Meloong-Git/PCL)（PCL2）提供一份下载页与整合包安装的修复补丁。
 
