@@ -89,7 +89,13 @@ public partial class MainWindow : Window
             };
 
             var snapshot = await Task.Run(() => Patcher.Inspect(path));
-            FileInfo.Text = $"{snapshot.AssemblyName} {snapshot.Version}   ·   {snapshot.Size:N0} 字节   ·   SHA256 {snapshot.Sha256}";
+            var flavor = snapshot.Kind == "CE 单文件" ? "  ·  PCL-CE" : "";
+            FileInfo.Text = $"{snapshot.AssemblyName} {snapshot.Version}{flavor}   ·   {snapshot.Size:N0} 字节   ·   SHA256 {snapshot.Sha256}";
+
+            // CE 的两个开关对应的是 PCL2 的补丁项，CE 上用不到
+            var isCe = snapshot.Kind == "CE 单文件";
+            ChkAutoUpdate.IsEnabled = !isCe;
+            ChkRowClick.IsEnabled = !isCe;
 
             var outcomes = await Task.Run(() => Patcher.Probe(path, options));
             ShowOutcomes(outcomes);

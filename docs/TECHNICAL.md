@@ -31,6 +31,7 @@ pcl2-patch/
 | 5 | 更新方式默认值改为「不更新」 | `Settings` 静态构造 |
 | 6 | 恢复「原版游戏」入口（仅 2.99.0.1+） | `PageDownloadLeft..ctor` |
 | 7 | 恢复启动页/空状态的下载入口（仅 2.99.0.1+） | `PageLaunchLeft.RefreshButtonsUI` · `PageSelectRight` |
+| 8 | PCL-CE：解除地区限制 | `PCL.Core.dll` · `RegionAssessment.IsRestricted` |
 
 ## 定位方式
 
@@ -73,3 +74,29 @@ dotnet publish src\Pcl2Patch.Gui\Pcl2Patch.Gui.csproj -c Release -o dist
 ```
 
 推 `v*` tag 会触发 `.github/workflows/release.yml`，自动编译单文件并挂到 Release。
+## PCL-CE 支持
+
+PCL-CE（社区版）是 C# 重写的分支，限制逻辑和原版完全不同：它不靠编译期常量，而是**运行期判定地区**。
+
+```
+PCL.Core.App.Region.RegionPolicy.Evaluate(ReadWindowsSignals())
+    -> RegionAssessment(Classification, Reason)
+        -> IsRestricted => Classification is Mainland or Unknown
+```
+
+下载、整合包安装、版本修复等入口都会先过 `RestrictedFeaturePolicy.Check(...)`，最终都落到 `IsRestricted`。所以只要让 `IsRestricted` 恒为 `false`，整条限制链就失效了。
+
+### 难点：发布物是 .NET 单文件包
+
+CE 的 exe 是 apphost + bundle（Bundle v6），内嵌 93 个托管程序集，不能直接当程序集读写。处理方式：
+
+1. 按 bundle 清单（位于文件末尾）找到内嵌的 `PCL.Core.dll` 的偏移与长度；
+2. 取出这段字节，用 Cecil 读成模块，定位 `RegionAssessment::get_IsRestricted`；
+3. 把方法体改成 tiny header + `ldc.i4.0` + `ret` —— **只占 3 字节，比原方法短**，所以不需要重写 bundle；
+4. 把改过的 DLL 字节按原偏移写回 exe（等长覆盖），再回读自检。
+
+整个 exe 大小、其它程序集、清单偏移都不变，因此不会破坏单文件包结构。
+
+### 版本判定
+
+`PCL.Core.dll` 里没有 `RegionAssessment` 时（早期 CE 没有地区限制），该项显示为「跳过」，不会报错。
