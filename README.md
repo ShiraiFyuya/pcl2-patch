@@ -25,7 +25,7 @@
 <br/>
 
 <a href="https://github.com/Meloong-Git/PCL">
-  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2FMeloong-Git%2FPCL%2Fcommits%3Fpath%3DPlain%2520Craft%2520Launcher%25202%2FMy%2520Project%2FAssemblyInfo.vb%26per_page%3D1&query=%24%5B0%5D.commit.message&label=PCL2%20%E6%9C%80%E6%96%B0&color=4A5568" alt="PCL2 最新" />
+  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FShiraiFyuya%2Fpcl2-patch%2Fmain%2Fdocs%2Fpcl-version.json&query=%24.version&label=PCL2%20%E6%9C%80%E6%96%B0&color=4A5568" alt="PCL2 最新" />
 </a>
 <img src="https://img.shields.io/badge/%E9%80%82%E9%85%8D-2.99.0.0%20%7C%202.99.0.1-4A5568" alt="适配" />
 <img src="https://img.shields.io/badge/Windows-10%20%2F%2011-4A5568" alt="Windows" />
