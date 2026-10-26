@@ -11,7 +11,7 @@
     <RootNamespace>Pcl2Patch.Gui</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>app.ico</ApplicationIcon>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <AssemblyTitle>pcl2-patch</AssemblyTitle>
     <DebugType>none</DebugType>
     <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
