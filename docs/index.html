@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PCL2 下载修复补丁 · pcl2-patch</title>
-<meta name="description" content="PCL2 2.99 的下载页用不了？pcl2-patch 一键恢复 Minecraft 原版下载与整合包安装，图形化操作，自动备份，支持回滚。已适配 PCL 2.99.0.0 / 2.99.0.1。" />
+<meta name="description" content="PCL2 2.99 的下载页用不了？pcl2-patch 一键恢复 Minecraft 原版下载与整合包安装，图形化操作，自动备份，支持回滚。已适配 PCL2 2.99.0.0 / 2.99.0.1 与 PCL-CE 2.15.1。" />
 <meta name="keywords" content="PCL2, PCL2下载不了, PCL2下载限制, PCL2整合包安装, PCL2 2.99, 我的世界启动器, 补丁工具" />
 <link rel="icon" href="logo.png" />
 <meta property="og:type" content="website" />
@@ -94,7 +94,8 @@
   <img class="logo" src="logo.png" alt="pcl2-patch" />
   <h1>PCL2 下载修复补丁</h1>
   <p class="sub">让 Plain Craft Launcher 2 的下载页与整合包安装重新工作</p>
-  <p class="tags">图形化 · 按版本适配 · 自动备份 · 随时可回滚</p>
+  <p class="tags">图形化四步向导 · 按版本适配 · 自动备份 · 随时可回滚</p>
+  <p class="sub" style="margin-top:6px;font-size:14px">支持 PCL2 <code>2.99.0.0</code> / <code>2.99.0.1</code> 与 PCL-CE <code>2.15.1</code></p>
   <div class="btns">
     <a class="btn btn-primary" href="https://github.com/ShiraiFyuya/pcl2-patch/releases/latest">下载最新版本</a>
     <a class="btn btn-ghost" href="https://github.com/ShiraiFyuya/pcl2-patch">GitHub 仓库</a>
@@ -117,8 +118,9 @@
   <table>
     <thead><tr><th>PCL 版本</th><th>状态</th><th>补丁项</th><th>说明</th></tr></thead>
     <tbody>
-      <tr><td><code>2.99.0.1</code></td><td>✅ 已适配</td><td>7</td><td>含「原版游戏」入口与启动页下载按钮的还原</td></tr>
-      <tr><td><code>2.99.0.0</code></td><td>✅ 已适配</td><td>5</td><td>另 2 项该版本没有对应改动，自动跳过</td></tr>
+      <tr><td><code>PCL2 2.99.0.1</code></td><td>✅ 已适配</td><td>7</td><td>含「原版游戏」入口与启动页下载按钮的还原</td></tr>
+      <tr><td><code>PCL2 2.99.0.0</code></td><td>✅ 已适配</td><td>5</td><td>另 2 项该版本没有对应改动，自动跳过</td></tr>
+      <tr><td><code>PCL-CE 2.15.1</code></td><td>✅ 已适配</td><td>1</td><td>社区版（C# 重写、.NET 单文件包），解除地区限制判定</td></tr>
       <tr><td>其它版本</td><td>⚠️ 未适配</td><td>—</td><td>工具会逐项显示能否定位，未适配项标红并写明原因</td></tr>
     </tbody>
   </table>
@@ -126,20 +128,24 @@
 
 <section class="wrap">
   <h2>怎么用<span class="en">Quick Start</span></h2>
-  <p class="lead">下载一个单文件 exe，双击打开。</p>
+  <p class="lead">下载一个单文件 exe，双击打开，按向导四步走。</p>
   <table style="margin-bottom:20px">
     <thead><tr><th>文件</th><th>大小</th><th>适用</th></tr></thead>
     <tbody>
-      <tr><td><code>pcl2-patch-gui.exe</code></td><td>约 320 KB</td><td>推荐。用 Windows 自带的 .NET Framework 4.8</td></tr>
+      <tr><td><code>pcl2-patch-gui.exe</code></td><td>约 335 KB</td><td>推荐。用 Windows 自带的 .NET Framework 4.8</td></tr>
       <tr><td><code>pcl2-patch-gui-net9.exe</code></td><td>约 58 MB</td><td>系统精简、4.8 缺失或损坏时用，自带 .NET 9 运行时</td></tr>
     </tbody>
   </table>
-  <ol>
-    <li>打开工具，把 <code>Plain Craft Launcher 2.exe</code> 拖进窗口；</li>
-    <li>等检查项全绿，点「打补丁」；</li>
-    <li>确认即可，自动完成 <strong>备份 → 写入 → 自检</strong>。</li>
-  </ol>
-  <p class="lead" style="margin-top:16px">回滚：同目录下会生成 <code>Plain Craft Launcher 2.exe.bak</code>，覆盖回去即可。</p>
+  <table style="margin-bottom:20px">
+    <thead><tr><th>步骤</th><th>做什么</th></tr></thead>
+    <tbody>
+      <tr><td><b>① 选择文件</b></td><td>把启动器 exe 拖进虚线框，或点「浏览选择…」</td></tr>
+      <tr><td><b>② 体检结果</b></td><td>顶部显示识别到的启动器与版本（如 <code>PCL2 原版 · 2.99.0.1</code>）与结论（<code>已适配 · 7 项可写入</code>），下面逐项列出定位结果</td></tr>
+      <tr><td><b>③ 确认并执行</b></td><td>核对目标路径与将写入的项，点「开始打补丁」，自动完成 <strong>备份 → 写入 → 自检</strong></td></tr>
+      <tr><td><b>④ 完成</b></td><td>显示备份路径，可打开文件夹、复制路径或继续处理下一个文件</td></tr>
+    </tbody>
+  </table>
+  <p class="lead">回滚：同目录下会生成 <code>Plain Craft Launcher 2.exe.bak</code>，覆盖回去即可。</p>
 </section>
 
 <section class="wrap">
@@ -155,6 +161,7 @@
   <h2>常见问题<span class="en">FAQ</span></h2>
   <details><summary>会不会改坏文件？</summary><p>不会。工具在副本上操作，写入前后各探测一次，全部通过才落盘。</p></details>
   <details><summary>要不要装 .NET？</summary><p>默认的 <code>pcl2-patch-gui.exe</code> 不用，它跑在 Windows 自带的 .NET Framework 4.8 上（Win10 1809+ / Win11 预装）。</p></details>
+  <details><summary>支持 PCL-CE 吗？</summary><p>支持。PCL-CE 本身需要 .NET 10 桌面运行时（它的要求，与本工具无关）；工具会解析它的 .NET 单文件包，解除地区限制判定。</p></details>
   <details><summary>PCL 更新了怎么办？</summary><p>更新会覆盖文件，补丁随之失效。重跑一次本工具即可。</p></details>
   <details><summary>打完要注意什么？</summary><p>不要点 PCL 的「检查更新」，会覆盖成官方版；更新后重跑一次即可。</p></details>
   <details><summary>下载页完全打不开 / 看不到「原版游戏」？</summary><p>2.99.0.1 起作者把入口也隐藏了，补丁会一并还原。详细原因与逐步骤说明见 <a href="fix.html">PCL2 下载不了 Minecraft 怎么办</a>。</p></details>
