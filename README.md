@@ -94,6 +94,11 @@
 </details>
 
 <details>
+<summary><b>怎么安装本地的整合包？</b></summary>
+
+把整合包压缩包（zip / mrpack / rar）直接拖到 PCL 窗口上即可开始安装；也可以在启动器目录放一个 `modpack.zip`，启动时会自动识别。
+</details>
+<details>
 <summary><b>PCL 更新了怎么办？</b></summary>
 
 启动器更新会覆盖文件，补丁随之失效。重跑一次本工具即可；如果新版本还没适配，界面会把不可用的项标红说明原因，不会写坏。

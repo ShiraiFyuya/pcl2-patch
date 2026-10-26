@@ -43,6 +43,7 @@ public static class Patches
         ("download",   "Minecraft 版本下载"),
         ("nav",        "下载入口"),
         ("entries",    "其余下载入口"),
+
         ("modpack",    "整合包安装分派"),
         ("rowclick",   "整合包版本行点击"),
         ("silent",     "静默自动更新"),
@@ -252,20 +253,6 @@ public static class Patches
         d.Body = new MethodBody(d) { MaxStackSize = 6 };
         var il = d.Body.GetILProcessor();
 
-        // 门禁：只允许带实例名（= PCL 内下载）的安装。
-        {
-            var allow = Instruction.Create(OpCodes.Nop);
-            il.Append(Instruction.Create(OpCodes.Ldarg, d.Parameters[4]));
-            il.Append(Instruction.Create(OpCodes.Call,
-                c.MemberRef("IsNullOrEmpty", r => r.DeclaringType.Name == "String")));
-            il.Append(Instruction.Create(OpCodes.Brfalse, allow));
-            il.Append(Instruction.Create(OpCodes.Ldstr,
-                "此构建保留了本地导入限制：只允许安装通过 PCL 下载的整合包。"));
-            il.Append(Instruction.Create(OpCodes.Newobj,
-                c.MemberRef(".ctor", r => r.DeclaringType.FullName == "System.Exception" && r.Parameters.Count == 1)));
-            il.Append(Instruction.Create(OpCodes.Throw));
-            il.Append(allow);
-        }
 
         var labels = new Instruction[DispatchTable.Length];
         for (int i = 0; i < labels.Length; i++) labels[i] = Instruction.Create(OpCodes.Nop);
@@ -337,11 +324,6 @@ public static class Patches
         Ctx.BumpStack(target, 8);
     }
 
-    // =======================================================================
-    // 2.4 其余下载入口（2.99.0.1+）
-    //   (a) PageLaunchLeft.RefreshButtonsUI：无版本时状态 1(禁用) -> 2(可下载)
-    //   (b) PageSelectRight：无可用版本时的「下载游戏」按钮
-    //   (c) PageDownloadModify：修改版本页的原版组件卡片
     // =======================================================================
     static PatchOutcome OtherEntries(Ctx c, PatchOptions o, bool dry)
     {

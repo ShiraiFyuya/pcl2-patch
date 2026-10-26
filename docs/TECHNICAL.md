@@ -25,7 +25,7 @@ pcl2-patch/
 | # | 内容 | 位置 |
 | --- | --- | --- |
 | 1 | 恢复版本列表加载器 | `PageDownloadInstall.LoaderInit` |
-| 2 | 恢复整合包安装分派 | `ModModpack.ModpackInstall(File, InstanceName, Logo)` |
+| 2 | 恢复整合包安装分派（下载安装与本地导入共用） | `ModModpack.ModpackInstall(File, InstanceName, Logo)` |
 | 3 | 资源页版本行改为「安装」 | `PageDownloadResourceDetail.Save_Click` |
 | 4 | 屏蔽静默自动更新 | `ModSecret.UpdateStart(bool Silent, …)` |
 | 5 | 更新方式默认值改为「不更新」 | `Settings` 静态构造 |
